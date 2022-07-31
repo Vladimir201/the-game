@@ -36,12 +36,54 @@ public class Main {
         megaOgr.damage = 5;
         megaOgr.givesExperience = 300;
 
-        Room room = new Room(skeleton);
-        Room room1 = new Room(skeletonMage);
-        Room room2 = new Room(megaOgr);
+        Monster monkeyKing = new Monster();
+        monkeyKing.name = " Jack";
+        monkeyKing.life = 100;
+        monkeyKing.damage = 8;
+        monkeyKing.givesExperience = 300;
 
+        Monster lolita = new Monster();
+        lolita.name = "Lara Mara Fara Tara";
+        lolita.life = 75;
+        lolita.damage = 7;
+        lolita.givesExperience = 300;
 
-        Room[] map = {room, room1, room2};
+        Monster bloodMaster = new Monster();
+        bloodMaster.name = "Mega Ogr";
+        bloodMaster.life = 50;
+        bloodMaster.damage = 5;
+        bloodMaster.givesExperience = 300;
+
+        Monster beetle = new Monster();
+        beetle.name = "Juja";
+        beetle.life = 40;
+        beetle.damage = 5;
+        beetle.givesExperience = 300;
+
+        Monster dragon = new Monster();
+        dragon.name = "Manini Munyanya";
+        dragon.life = 150;
+        dragon.damage = 15;
+        dragon.givesExperience = 300;
+
+        Monster leftHand = new Monster();
+        leftHand.name = "Marfa";
+        leftHand.life = 40;
+        leftHand.damage = 5;
+        leftHand.givesExperience = 300;
+
+        Room room = new Room(1, skeleton);
+        Room room1 = new Room(2,skeletonMage);
+        Room room2 = new Room(3,megaOgr);
+        Room room3 = new Room(4,leftHand);
+        Room room4 = new Room(5,monkeyKing);
+        Room room5 = new Room(6,dragon);
+        Room room6 = new Room(7,lolita);
+        Room room7 = new Room(8,bloodMaster);
+        Room room8 = new Room(9,beetle);
+
+        Room[] map = {room, room1, room2, room3, room4, room5, room6, room7, room8};
+
 
         while (true) {
 
@@ -58,6 +100,9 @@ public class Main {
                     if (s.equals("2")) {
                         while (true) {
                             System.out.println("герой находится в данжене, для хождению по данжену нажмите 3");
+                            //room
+                            Room num = map[hero.numberDanjen];
+
                             s = scanner.nextLine();
                             if (s.equals("3")) {
                                 System.out.println("Hero passed");
@@ -65,23 +110,13 @@ public class Main {
                                 System.out.println(hero.movedanj);
                                 System.out.println("the hero walked " + hero.movedanj + " the steps");
 
-                                if (hero.movedanj == 2) {
-                                    System.out.println("you met a skeleton, press 4 to hit");
+                                if(hero.movedanj == num.num){
+                                    System.out.println("you met a monster, press 4 to hit");
 
-                                    startFight(random,hero,map,s);
+                                    if (!startFight(random,hero,num,s)){
+                                        hero.numberDanjen++;
+                                    }
                                 }
-                            }
-                            if (hero.movedanj == 4) {
-
-                                System.out.println("You met a SkeletonMage, press 4 to hit ");
-
-                                startFight(random,hero,map,s);
-                            }
-                            if (hero.movedanj == 6) {
-                                System.out.println("Вы встретили мега Огра Fedorar!!! Он хочет уничтожить вас!!!" +
-                                        "Press 4 to hit this monster");
-
-                                startFight(random,hero,map,s);
                             }
                         }
                     }
@@ -99,6 +134,7 @@ public class Main {
     private  static void parameterHero(Hero hero, Monster monster){
         hero.experience += monster.givesExperience;
         hero.numberDanjen ++;
+        System.out.println(" номер данжена параметр героя " +hero.numberDanjen);
         if (hero.experience >= 100) {
             hero.experience -= 100;
             hero.level++;
@@ -115,27 +151,29 @@ public class Main {
         }
     }
 
-    private static void startFight(Random random, Hero hero, Room[] map, String s){
+    private static boolean startFight(Random random, Hero hero, Room room, String s){
         if (s.equals("4")) {
             while (true) {
-                boolean isFightGoing = fight(random, hero, map);
+                boolean isFightGoing = fight(random, hero, room);
                 if (!isFightGoing){
-                    break;
+                   return  true;
                 }
             }
-        }
+        } else {
+            return false;
+            }
     }
-    private static boolean fight(Random random, Hero hero, Room[] map ){
+    private static boolean fight(Random random, Hero hero, Room room ){
 
-        hitHero(random, hero, map[hero.numberDanjen].monster, 5);
-        hitMonster(random, hero, map[hero.numberDanjen].monster, 6);
+        hitHero(random, hero, room.monster, 5);
+        hitMonster(random, hero, room.monster, 6);
 
         if (hero.life <= 0 ){
             return false;
         }
 
-        if (map[hero.numberDanjen].monster.life <= 0) {
-            parameterHero(hero, map[hero.numberDanjen].monster);
+        if (room.monster.life <= 0) {
+            parameterHero(hero, room.monster);
             return false;
         }
         return true;
