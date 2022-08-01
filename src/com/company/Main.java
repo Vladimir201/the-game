@@ -49,7 +49,7 @@ public class Main {
         lolita.givesExperience = 300;
 
         Monster bloodMaster = new Monster();
-        bloodMaster.name = "Mega Ogr";
+        bloodMaster.name = "gaga";
         bloodMaster.life = 50;
         bloodMaster.damage = 5;
         bloodMaster.givesExperience = 300;
@@ -86,7 +86,10 @@ public class Main {
 
 
         while (true) {
-
+            if (map.length == hero.numberDanjen) {
+                System.out.println("Congratulation! you are win!");
+                break;
+            }
             System.out.println("для того что бы герой походил надо написать 1");
             String s = scanner.nextLine();
             if (s.equals("1")) {
@@ -99,24 +102,40 @@ public class Main {
 
                     if (s.equals("2")) {
                         while (true) {
-                            System.out.println("герой находится в данжене, для хождению по данжену нажмите 3");
+                            System.out.println("герой находится в данжене, для хождению по комнатам и раздече люлей 4");
                             //room
+                            if (map.length == hero.numberDanjen) {
+                                System.out.println("Congratulation! you are win!");
+                                break;
+                            }
                             Room num = map[hero.numberDanjen];
 
                             s = scanner.nextLine();
-                            if (s.equals("3")) {
+                            if (s.equals("4")) {
                                 System.out.println("Hero passed");
                                 hero.movedanj++;
                                 System.out.println(hero.movedanj);
                                 System.out.println("the hero walked " + hero.movedanj + " the steps");
 
-                                if(hero.movedanj == num.num){
+                                if(num.num == hero.movedanj){
+
                                     System.out.println("you met a monster, press 4 to hit");
 
-                                    if (!startFight(random,hero,num,s)){
+                                    if (!startFight(random,hero,num)){
                                         hero.numberDanjen++;
+                                        System.out.println(hero.numberDanjen);
+                                        System.out.println(hero.movedanj);
+                                        System.out.println(num.num);
                                     }
                                 }
+                            } else  if (s.equals("3")){
+                                hero.numberDanjen++;
+                                hero.movedanj++;
+                                num.num = hero.movedanj;
+                                System.out.println(hero.numberDanjen);
+                                System.out.println(hero.movedanj);
+                                System.out.println(num.num);
+                                System.out.println("the hero walked " + hero.movedanj + " the steps");
                             }
                         }
                     }
@@ -135,34 +154,33 @@ public class Main {
         hero.experience += monster.givesExperience;
         hero.numberDanjen ++;
         System.out.println(" номер данжена параметр героя " +hero.numberDanjen);
-        if (hero.experience >= 100) {
-            hero.experience -= 100;
-            hero.level++;
-            hero.damage++;
-            hero.attack++;
-            hero.armor++;
-            hero.life+=10;
-            System.out.println("Поздравляем! Вы победили монстра!");
-            System.out.println(" Lvl " + hero.level +
-                               " Ex " + hero.experience +
-                                " защита " + hero.armor +
-                                 " атака " + hero.attack +
-                                 " жизни " + hero.life);
+        for(int i = 0; i < 100; i++){
+            if(hero.experience >= 100){
+                hero.experience -= 100;
+                hero.level++;
+                hero.damage++;
+                hero.attack++;
+                hero.armor++;
+                hero.life+=10;
+                System.out.println("Поздравляем! Вы победили монстра!");
+                System.out.println(" Lvl " + hero.level +
+                        " Ex " + hero.experience +
+                        " защита " + hero.armor +
+                        " атака " + hero.attack +
+                        " жизни " + hero.life);
+            }
         }
     }
 
-    private static boolean startFight(Random random, Hero hero, Room room, String s){
-        if (s.equals("4")) {
+    private static boolean startFight(Random random, Hero hero, Room room){
+
             while (true) {
                 boolean isFightGoing = fight(random, hero, room);
                 if (!isFightGoing){
                    return  true;
                 }
             }
-        } else {
-            return false;
-            }
-    }
+        }
     private static boolean fight(Random random, Hero hero, Room room ){
 
         hitHero(random, hero, room.monster, 5);
