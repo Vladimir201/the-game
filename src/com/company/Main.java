@@ -174,12 +174,14 @@ public class Main {
             String choice = scanner.nextLine();
             if (choice.equals("5")){
                 hitMonster( hero, room.monsters[i], 6);
+                System.out.println(" У "+ room.monsters[i].name + " осталось жизней " + room.monsters[i].life);
                 if(room.monsters[i].life <=0){
                     room.monsters[i].life = 0;
                 }
             }
                 if(choice.equals("6")){
                     hitMonster( hero, room.monsters[i + 1], 5);
+                    System.out.println(" У "+ room.monsters[i + 1].name + " осталось жизней " + room.monsters[i+1].life);
                     if(room.monsters[i+1].life <=0){
                         room.monsters[i+1].life = 0;
                     }
