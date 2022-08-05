@@ -2,16 +2,16 @@ package com.company;
 
 public class Room {
 
+    Monster[] monsters;
 
     int num;
 
 
-    Monster monster;
 
-
-    public Room(int num, Monster monster) {
+    public Room(int num, Monster[] monsters) {
         this.num = num;
-        this.monster = monster;
+        this.monsters = monsters;
+
     }
 
 }
