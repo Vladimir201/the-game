@@ -12,8 +12,8 @@ public class Main {
     public static void main(String[] args) {
 
         Hero hero = new Hero();
-        hero.life = 200;
-        hero.damage = 1;
+        hero.life = 500;
+        hero.damage = 10;
         hero.armor = 1;
         hero.attack = 1;
         hero.experience = 0;
@@ -38,22 +38,22 @@ public class Main {
         Monster monster15 = new Monster(250, 15, 300, "Dragon");
         Monster monster16 = new Monster(500, 20, 1500, "Titan");
 
-        Monster[] firthRoom  = {monster, monster1};
-        Monster[] secondRoom  = {monster2, monster3};
-        Monster[] thirdRoom  = {monster4, monster5};
-        Monster[] fourthRoom  = {monster6, monster7};
-        Monster[] fifthRoom  = {monster8, monster9};
-        Monster[] sixthRoom  = {monster10, monster11, monster12};
-        Monster[] seventhRoom  = {monster13, monster14};
-        Monster[] eighthRoom  = {monster15};
-        Monster[] ninthRoom  = {monster16};
+        Monster[] firstRoom = {monster, monster1};
+        Monster[] secondRoom = {monster2, monster3};
+        Monster[] thirdRoom = {monster4, monster5};
+        Monster[] fourthRoom = {monster6, monster7};
+        Monster[] fifthRoom = {monster8, monster9};
+        Monster[] sixthRoom = {monster10, monster11, monster12};
+        Monster[] seventhRoom = {monster13, monster14};
+        Monster[] eighthRoom = {monster15};
+        Monster[] ninthRoom = {monster16};
 
-        Room room = new Room(1, firthRoom);
+        Room room = new Room(1, sixthRoom);
         Room room1 = new Room(2, secondRoom);
         Room room2 = new Room(3, thirdRoom);
         Room room3 = new Room(4, fourthRoom);
         Room room4 = new Room(5, fifthRoom);
-        Room room5 = new Room(6, sixthRoom);
+        Room room5 = new Room(6, firstRoom);
         Room room6 = new Room(7, seventhRoom);
         Room room7 = new Room(8, eighthRoom);
         Room room8 = new Room(9, ninthRoom);
@@ -94,18 +94,18 @@ public class Main {
                                 System.out.println(hero.movedanj);
                                 System.out.println(" Герой прошел по данжену  " + hero.movedanj + " шагов ");
 
-                                if(num.num == hero.movedanj){
+                                if (num.num == hero.movedanj) {
 
                                     System.out.println(" Вы зашли в комнату для того что бы подраться нажмите 4 ");
 
-                                    if (!startFight(hero, num)){
+                                    if (!startFight(hero, num)) {
 
                                         System.out.println(hero.numberDanjen);
                                         System.out.println(hero.movedanj);
                                         System.out.println(num.num);
                                     }
                                 }
-                            } else  if (s.equals("3")){
+                            } else if (s.equals("3")) {
                                 hero.numberDanjen++;
                                 hero.movedanj++;
                                 num.num = hero.movedanj;
@@ -117,8 +117,7 @@ public class Main {
                         }
                     }
                 }
-            }
-            else if (s.equals("0")) {
+            } else if (s.equals("0")) {
                 System.out.println("вы вышли");
                 break;
             } else {
@@ -127,18 +126,18 @@ public class Main {
         }
     }
 
-    private  static void parameterHero(Hero hero, Monster monster){
+    private static void parameterHero(Hero hero, Monster monster) {
         hero.experience += monster.givesExperience;
 
-        System.out.println(" Номер данжена параметр героя " +hero.numberDanjen);
-        for(int i = 0; i < 100; i++){
-            if(hero.experience >= 100){
+        System.out.println(" Номер данжена параметр героя " + hero.numberDanjen);
+        for (int i = 0; i < 100; i++) {
+            if (hero.experience >= 100) {
                 hero.experience -= 100;
                 hero.level++;
                 hero.damage++;
                 hero.attack++;
                 hero.armor++;
-                hero.life+=10;
+                hero.life += 10;
                 System.out.println("Поздравляем! Вы победили монстра!");
                 System.out.println(" Lvl " + hero.level +
                         " Ex " + hero.experience +
@@ -149,62 +148,59 @@ public class Main {
         }
     }
 
-    private static boolean startFight(Hero hero, Room room){
+    private static boolean startFight(Hero hero, Room room) {
 
-            while (true) {
-                boolean isFightGoing = fight(hero, room);
-                if (!isFightGoing){
-                   return  true;
-                }
+        while (true) {
+            boolean isFightGoing = fight(hero, room);
+            if (!isFightGoing) {
+                return true;
             }
         }
+    }
+
     private static boolean fight(Hero hero, Room room) {
 
-        for (int i = 0; i < room.monsters.length - 1; i++) {
-            if (room.monsters[i].life <= 0) {
-                hitHero(hero, room.monsters[i + 1], 5);
-            } else {
-                hitHero( hero, room.monsters[i], 5);
-                hitHero( hero, room.monsters[i + 1], 5);
+        for (int i = 0; i < room.monsters.length; i++) {
+            if (room.monsters[i].life > 0) {
+                hitHero(hero, room.monsters[i], 5);
             }
         }
-        for (int i = 0; i < room.monsters.length -1; i++) {
-            System.out.println(" Перед вами два монстра, для того что бы ударить первого монстра нажмите 5, " +
-                    "Для того что бы ударить второго монстра нажмите 6 ");
-            String choice = scanner.nextLine();
-            if (choice.equals("5")){
-                hitMonster( hero, room.monsters[i], 6);
-                System.out.println(" У "+ room.monsters[i].name + " осталось жизней " + room.monsters[i].life);
-                if(room.monsters[i].life <=0){
-                    room.monsters[i].life = 0;
-                }
-            }
-                if(choice.equals("6")){
-                    hitMonster( hero, room.monsters[i + 1], 5);
-                    System.out.println(" У "+ room.monsters[i + 1].name + " осталось жизней " + room.monsters[i+1].life);
-                    if(room.monsters[i+1].life <=0){
-                        room.monsters[i+1].life = 0;
-                    }
-                }
+        // посчитать количество живых монстров и поменять колличество живых монстров room.monsters.length
+        System.out.println("количество монстров " + room.monsters.length + " . Введите на клавиатуре от 0 до " + (room.monsters.length - 1));
+
+        int choice = Integer.parseInt(scanner.nextLine());
+        hitMonster(hero, room.monsters[choice], 6);
+        System.out.println(" У " + room.monsters[choice].name + " осталось жизней " + room.monsters[choice].life);
+        if (room.monsters[choice].life <= 0) {
+            room.monsters[choice].life = 0;
         }
+
+
         if (hero.life <= 0) {
             return false;
         }
-            if (room.monsters[0].life  + room.monsters[1].life <= 0) {
-                room.monsters[0].life = 0;
-                room.monsters[1].life = 0;
-                parameterHero(hero, room.monsters[0]);
-                parameterHero(hero, room.monsters[1]);
-                return false;
+
+        boolean lifeAllMonstersIsPositive = true;
+        for (int i = 0; i < room.monsters.length; i++) {
+            if (room.monsters[i].life > 0) {
+                lifeAllMonstersIsPositive = false;
+                break;
             }
-            return true;
+        }
+        if (lifeAllMonstersIsPositive) {
+            for (int i = 0; i < room.monsters.length; i++) {
+                parameterHero(hero, room.monsters[i]);
+            }
+            return false;
+        }
+        return true;
     }
 
     private static void hitMonster(Hero hero, Monster monster, int chance) {
         int chanceToHitHero = random.nextInt();
         if (chanceToHitHero > chance) {
             monster.life = monster.life - (hero.attack + hero.damage);
-            System.out.println(" У " +monster.name + " осталось " + monster.life + " жизней ");
+            System.out.println(" У " + monster.name + " осталось " + monster.life + " жизней ");
         }
     }
 
@@ -215,7 +211,7 @@ public class Main {
             int damage = monster.damage - hero.armor;
             hero.life = hero.life - damage;
             System.out.println(" Монстр " + monster.name + " бьет героя на " + damage);
-            System.out.println(" У героя осталось " + hero.life + " жизней " );
+            System.out.println(" У героя осталось " + hero.life + " жизней ");
         }
     }
 }
