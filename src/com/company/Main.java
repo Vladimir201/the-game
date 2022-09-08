@@ -4,12 +4,9 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
-
     public static Scanner scanner = new Scanner(System.in);
     public static Random random = new Random();
-
     public static Configuration configuration = new Configuration();
-
     public static void main(String[] args) {
 
         Hero hero = configuration.preparedHero();
@@ -85,9 +82,10 @@ public class Main {
         hero.experience += monster.givesExperience;
 
         System.out.println(" Номер данжена параметр героя " + hero.numberDanjen);
-        for (int i = 0; i < 100; i++) {
-            if (hero.experience >= 100) {
-                hero.experience -= 100;
+        for (int i = 0; i < hero.experienceNeedForLvUp; i++) {
+            if (hero.experience >= hero.experienceNeedForLvUp) {
+                hero.experience -= hero.experienceNeedForLvUp;
+                hero.experienceNeedForLvUp += 20;
                 hero.level++;
                 hero.damage++;
                 hero.attack++;
@@ -125,6 +123,7 @@ public class Main {
 
         int choice = Integer.parseInt(scanner.nextLine());
         hitMonster(hero, room.monsters[choice], 6);
+
         System.out.println(" У " + room.monsters[choice].name + " осталось жизней " + room.monsters[choice].life);
         if (room.monsters[choice].life <= 0) {
             room.monsters[choice].life = 0;

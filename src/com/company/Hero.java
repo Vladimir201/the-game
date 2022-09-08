@@ -11,4 +11,6 @@ public class Hero {
     public int movedanj;
 
     public int numberDanjen;
+
+    public int experienceNeedForLvUp;
 }

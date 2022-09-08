@@ -11,6 +11,7 @@ public class Configuration {
         hero.experience = 0;
         hero.level = 1;
         hero.movedanj = 0;
+        hero.experienceNeedForLvUp = 100;
         return hero;
     }
 
